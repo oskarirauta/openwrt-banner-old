@@ -37,7 +37,7 @@ jobs:
             mv "/tmp/$NAME" .
             # Cleanup
             find "$NAME" -name '.git*' -exec rm -rv {} \; || true
-            tar -czf openwrt-banner-${{${{steps.get_tag.outputs.tag}}.tar.gz "$NAME"
+            tar -czf "openwrt-banner-${{${{steps.get_tag.outputs.tag}}.tar.gz" "$NAME"
             tar -czf ${{steps.filenames.outputs.src}} "$NAME"
       - name: Get tag message
         run: |
