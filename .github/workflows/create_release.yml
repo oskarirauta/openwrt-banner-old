@@ -52,7 +52,7 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           else
             echo "TAG_MSG=" >> $GITHUB_ENV
-          fi      - name: Upload source distribution
+          fi
       - name: Upload source distribution
         uses: actions/upload-release-asset@v1.0.1
         env:
