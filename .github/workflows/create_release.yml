@@ -36,7 +36,6 @@ jobs:
             cp -r * "/tmp/$NAME"
             mv "/tmp/$NAME" .
             # Cleanup
-            rm -r "$NAME"/{appveyor.yml,codecov.yml,Jenkinsfile,tools/ci}
             find "$NAME" -name '.git*' -exec rm -rv {} \; || true
 
             tar -czf ${{steps.filenames.outputs.src}} "$NAME"
