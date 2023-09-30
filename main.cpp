@@ -19,7 +19,7 @@ static std::string logo_file;
 
 static void version_header(void) {
 
-	std::cout << APP_NAME << " version " << APP_VERSION << "\n"
+	std::cout << APP_NAME << " v" << APP_VERSION << "\n"
 		"author: Oskari Rauta" << std::endl;
 }
 
@@ -29,36 +29,28 @@ static void usage(const std::string &cmd) {
 
 int main(int argc, char *argv[]) {
 
-/*
-	CmdParser cmdparser(std::vector<std::string>(argv, argv + argc),
-		{
-			{{ "-h", "--h" }},
-			{{ "-v", "--v" }},
-			{{ "-x", "--x" }, [](const CmdParser::Arg &arg) {}, true },
-			{{ "" }}
-		});
-	cmdparser.parse();
-*/
-//	return 0;
-/*
-	CmdParser *cmdparser = new CmdParser(std::vector<std::string>(argv, argv + argc),
-		{ });
+	if ( argc > 1 ) {
 
-	cmdparser -> parse();
-	delete cmdparser;
-	return 0;
+		CmdParser cmdparser(std::vector<std::string>(argv, argv + argc), {
+			{{ "-h", "--h", "-help", "--help" }, [&argv](const CmdParser::Arg &arg) {
 
-	if ( argc > 1 )
-		handle_args(std::vector<std::string>(argv, argv + argc));
+				version_header();
+				usage(arg.cmd);
+				exit(0);
 
-	arg_handler({
-		{ "--h", }
+			}, false },
+			{{ "-v", "--v", "-version", "--version" }, [](const CmdParser::Arg &arg) {
+
+				version_header();
+				exit(0);
+
+			}, false },
+			{{ "" }, [](const CmdParser::Arg &arg) { logo_file = arg.arg; }, false }
 		});
 
-	std::cout << "logo file to load: " << logo_file << std::endl;
+		cmdparser.parse();
+	}
 
-	logo_file = "logox";
-*/
 	std::string logo(banner::logo(logo_file));
 	int logo_width = banner::logo_width(logo);
 	std::string os_release, os_commit;
@@ -93,4 +85,6 @@ int main(int argc, char *argv[]) {
 			( nopasswd ? ( root_pw_warning + "\n" ) : "" ) <<
 			( warning_width == 0 ? "" : ( warning_msg + "\n" )) <<
 			separator << std::endl;
+
+	return 0;
 }

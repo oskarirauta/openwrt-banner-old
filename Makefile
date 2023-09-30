@@ -7,10 +7,11 @@ OBJS:= \
 	objs/logo.o \
 	objs/env.o \
 	objs/release.o \
-	objs/cmdparser.o \
 	objs/main.o
 
 LIBS:=
+
+include cmdparser/Makefile.inc
 
 HARDCODED_RELEASE?=""
 
@@ -28,13 +29,10 @@ objs/env.o: src/env.cpp
 objs/release.o: src/release.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(EXTRA_CXXFLAGS) -c -o $@ $<;
 
-objs/cmdparser.o: src/cmdparser.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(EXTRA_CXXFLAGS) -c -o $@ $<;
-
 objs/main.o: main.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(EXTRA_CXXFLAGS) -c -o $@ $<;
 
-banner: $(OBJS)
+banner: $(CMDPARSER_OBJS) $(OBJS)
 	$(CXX) $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(LDFLAGS) $(LIBS) $^ -o $@;
 
 clean:
