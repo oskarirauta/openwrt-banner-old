@@ -53,9 +53,9 @@ jobs:
           else
             echo "TAG_MSG=" >> $GITHUB_ENV
           fi
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Update Release
+        id: update_release
+        uses: tubone24/update_release@v1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -63,7 +63,6 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-          allowUpdates: true
       - name: Upload source distribution
         uses: actions/upload-release-asset@v1.0.1
         env:
