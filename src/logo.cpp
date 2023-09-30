@@ -21,10 +21,16 @@ static std::string default_logo(void) {
 		"                           W I R E L E S S    F R E E D O M  \n";
 }
 
+#include <iostream>
+
 const std::string banner::logo(const std::string& filename) {
+
+	std::cout << "filename: " << filename << std::endl;
 
 	banner::logo_error = false;
 	std::string s = default_logo();;
+
+	std::cout << "filename: " << filename << std::endl;
 
 	if ( !filename.empty() && std::filesystem::exists(filename)) {
 

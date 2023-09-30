@@ -7,6 +7,7 @@ OBJS:= \
 	objs/logo.o \
 	objs/env.o \
 	objs/release.o \
+	objs/cmdparser.o \
 	objs/main.o
 
 LIBS:=
@@ -27,10 +28,13 @@ objs/env.o: src/env.cpp
 objs/release.o: src/release.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(EXTRA_CXXFLAGS) -c -o $@ $<;
 
+objs/cmdparser.o: src/cmdparser.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(EXTRA_CXXFLAGS) -c -o $@ $<;
+
 objs/main.o: main.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(EXTRA_CXXFLAGS) -c -o $@ $<;
 
-banner: $(COMMON_OBJS) $(LOGGER_OBJS) $(OBJS)
+banner: $(OBJS)
 	$(CXX) $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(LDFLAGS) $(LIBS) $^ -o $@;
 
 clean:

@@ -1,13 +1,21 @@
 #include <iostream>
 #include <string>
 
+#include <functional>
+#include <vector>
+#include <map>
+
 #include "logo.hpp"
 #include "env.hpp"
 #include "release.hpp"
 #include "constants.hpp"
 
+#include "cmdparser.hpp"
+
 static const std::string root_pw_warning = " warning, root password is not set";
 static const std::string banner_file_missing = " access error, banner file: ";
+
+static std::string logo_file;
 
 static void version_header(void) {
 
@@ -21,32 +29,36 @@ static void usage(const std::string &cmd) {
 
 int main(int argc, char *argv[]) {
 
-	std::string logo_file;
+/*
+	CmdParser cmdparser(std::vector<std::string>(argv, argv + argc),
+		{
+			{{ "-h", "--h" }},
+			{{ "-v", "--v" }},
+			{{ "-x", "--x" }, [](const CmdParser::Arg &arg) {}, true },
+			{{ "" }}
+		});
+	cmdparser.parse();
+*/
+//	return 0;
+/*
+	CmdParser *cmdparser = new CmdParser(std::vector<std::string>(argv, argv + argc),
+		{ });
 
-	if ( argc > 1 ) {
+	cmdparser -> parse();
+	delete cmdparser;
+	return 0;
 
-		for ( int i = 1; i <= argc; i++ ) {
+	if ( argc > 1 )
+		handle_args(std::vector<std::string>(argv, argv + argc));
 
-			std::string a(argv[i]);
+	arg_handler({
+		{ "--h", }
+		});
 
-			if ( a == "?" || a == "-?" || a == "-h" || a == "--?" || a == "--h" ||
-				a == "-help" || a == "--help" || a == "-usage" || a == "--usage" ) {
+	std::cout << "logo file to load: " << logo_file << std::endl;
 
-				version_header();
-				usage(argv[0]);
-				return 0;
-
-			} else if ( a == "-v" || a == "--v" || a == "-version" || a == "--version" ) {
-
-				version_header();
-				return 0;
-
-			} else if ( !a.empty()) // TODO: fix logic error
-				logo_file = std::string(a);
-
-		}
-	}
-
+	logo_file = "logox";
+*/
 	std::string logo(banner::logo(logo_file));
 	int logo_width = banner::logo_width(logo);
 	std::string os_release, os_commit;
