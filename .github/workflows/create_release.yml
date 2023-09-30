@@ -52,23 +52,7 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           else
             echo "TAG_MSG=" >> $GITHUB_ENV
-          fi
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Return To The Roots (Settlers II(R) Clone)
-            ${{ env.TAG_MSG }}
-            - ${{steps.filenames.outputs.src}} contains all source files including the submodules
-            - ${{steps.filenames.outputs.devTools}} contains optional binaries for development. Extract over the source folder if required
-          draft: false
-          prerelease: false
-      - name: Upload source distribution
+          fi      - name: Upload source distribution
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
