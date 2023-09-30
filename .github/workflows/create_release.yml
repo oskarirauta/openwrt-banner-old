@@ -38,3 +38,11 @@ jobs:
           asset_path: ./openwrt-banner-${{ github.event.inputs.tagname }}.tar.gz
           asset_name: openwrt-banner-${{ github.event.inputs.tagname }}.tar.gz
           asset_content_type: application/tar.gz
+      - name: Delete default release assets
+        uses: mknejp/delete-release-assets@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.event.inputs.tagname }}
+          assets: |
+            ${{ github.event.inputs.tagname }}.zip
+            ${{ github.event.inputs.tagname }}.tar.gz
