@@ -59,7 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          release_name: 'v${{ github.ref }}'
+          release_name: 'latest'
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
