@@ -2,6 +2,7 @@ name: Create Release
 run-name: ${{ github.actor }} is creating new release
 
 on:
+  workflow_dispatch:
   push:
     tags: 
     - 'v*'
