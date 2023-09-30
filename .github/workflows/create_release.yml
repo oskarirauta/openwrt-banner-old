@@ -20,8 +20,8 @@ jobs:
         run: |
           tag_or_branch="${GITHUB_REF#refs/tags/}"
           tag_or_branch="${tag_or_branch#refs/heads/}"
-          echo "PT_RELEASE_NAME=pytorch-$tag_or_branch" >> "$GITHUB_ENV"
-          echo "PT_RELEASE_FILE=pytorch-$tag_or_branch.tar.gz" >> "$GITHUB_ENV"
+          echo "PT_RELEASE_NAME=openwrt-banner-$tag_or_branch" >> "$GITHUB_ENV"
+          echo "PT_RELEASE_FILE=opernwrt-banner-$tag_or_branch.tar.gz" >> "$GITHUB_ENV"
       - name: Create source distribution
         run: |
             # Create new folder with specified name so extracting the archive yields that
