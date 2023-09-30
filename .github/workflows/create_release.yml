@@ -6,7 +6,6 @@ on:
     inputs:
       tagname:
         description: "tag name"
-        default: "World"
 
 jobs:
   release:
