@@ -33,7 +33,7 @@ jobs:
             git rev-parse HEAD > revision.txt
             NAME="openwrt-banner_${{steps.get_tag.outputs.tag}}"
             mkdir "/tmp/$NAME"
-            cp -r * .clang-format .clang-tidy "/tmp/$NAME"
+            cp -r * "/tmp/$NAME"
             mv "/tmp/$NAME" .
             # Cleanup
             rm -r "$NAME"/{appveyor.yml,codecov.yml,Jenkinsfile,tools/ci}
