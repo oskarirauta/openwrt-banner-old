@@ -13,7 +13,7 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: 'recursive'
       - name: Set filenames
@@ -29,7 +29,6 @@ jobs:
             cp -r "$PWD" "/tmp/$PT_RELEASE_NAME"
             mv "/tmp/$PT_RELEASE_NAME" .
             # Cleanup
-            rm -r "$PT_RELEASE_NAME"/{.azure_pipelines,.circleci,.jenkins}
             find "$PT_RELEASE_NAME" -name '.git*' -exec rm -rv {} \; || true
             # Create archive
             tar -czf "$PT_RELEASE_FILE" "$PT_RELEASE_NAME"
