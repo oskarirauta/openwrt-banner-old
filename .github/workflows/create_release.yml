@@ -63,6 +63,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+          allowUpdates: true
       - name: Upload source distribution
         uses: actions/upload-release-asset@v1.0.1
         env:
