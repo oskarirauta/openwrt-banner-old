@@ -13,6 +13,18 @@ needed. And allows also to use logo from file (not in initial version).
 
 utf-8 logo files are supported.
 
+### Usage
+
+```
+./banner [options] [alternative logo text file]
+
+Command-line options:
+
+ --help     usage
+ --classic  use classic logo
+ --version  version information
+```
+
 ### License
 
 MIT
