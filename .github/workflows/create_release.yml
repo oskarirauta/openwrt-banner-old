@@ -27,8 +27,8 @@ jobs:
             set -x
             git clone --recursive https://github.com/oskarirauta/openwrt-banner.git openwrt-banner-${{ github.event.inputs.tagname }}
             # Cleanup
-            find "$NAME" -name '.git*' -exec rm -rv {} \; || true
-            tar -czf "$NAME.tar.gz" "$NAME"
+            find openwrt-banner-${{ github.event.inputs.tagname }} -name '.git*' -exec rm -rv {} \; || true
+            tar -czf "openwrt-banner-${{ github.event.inputs.tagname }}.tar.gz" "openwrt-banner-${{ github.event.inputs.tagname }}"
       - name: Upload source distribution
         uses: actions/upload-release-asset@v1.0.1
         env:
