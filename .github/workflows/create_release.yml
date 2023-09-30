@@ -3,80 +3,48 @@ run-name: ${{ github.actor }} is creating new release
 
 on:
   workflow_dispatch:
-  push:
-    tags: 
-    - 'v*'
-    branches: [master]
-  release:
-    types: [published]
-
-concurrency:
-  group: ${{format('release-{0}:{1}', github.repository, github.ref)}}
-  cancel-in-progress: true
+    inputs:
+      tagname:
+        description: "tag name"
+        default: "World"
 
 jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Extract tag name
-        id: get_tag
-        run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
-      - name: Set filenames
-        id: filenames
-        run: |
-          echo "::set-output name=name::openwrt-banner${{steps.get_tag.outputs.tag}}.tar.gz"
+      - name: Checkout branch "master"
+        uses: actions/checkout@v2
+        with:
+          ref: 'master'
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.tagname }}
+          release_name: ${{ github.event.inputs.tagname }}
+          draft: false
+          prerelease: false
       - name: Create source distribution
         run: |
             set -x
             git submodule update --init
             git rev-parse HEAD > revision.txt
-            NAME="openwrt-banner-${{steps.get_tag.outputs.tag}}"
+            NAME="openwrt-banner-${{ github.event.inputs.tagname }}"
             mkdir "/tmp/$NAME"
             cp -r * "/tmp/$NAME"
             mv "/tmp/$NAME" .
             # Cleanup
             find "$NAME" -name '.git*' -exec rm -rv {} \; || true
             tar -czf "$NAME.tar.gz" "$NAME"
-      - name: Get tag message
-        run: |
-          tagName=${{steps.get_tag.outputs.tag}}
-          tagType=$(git cat-file -t $tagName)
-          if [[ "$tagType" == "tag" ]]; then
-            tagMsg="$(git tag -l --format='%(contents)' $tagName)"
-            # Make sure to keep newlines and add an empty line before and after the message for better formatting
-            echo "TAG_MSG<<EOF" >> $GITHUB_ENV
-            echo "" >> $GITHUB_ENV
-            echo "$tagMsg" >> $GITHUB_ENV
-            echo "" >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
-          else
-            echo "TAG_MSG=" >> $GITHUB_ENV
-          fi
-      - name: Delete tag and release
-        id: delete_tag_and_release
-        uses: dev-drprasad/delete-tag-and-release@v1.0
-        with:
-          tag_name: ${{ github.ref }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          delete_release: true
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
       - name: Upload source distribution
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{steps.create_release.outputs.upload_url}}
-          asset_path: ./openwrt-banner-${{steps.get_tag.outputs.tag}}.tar.gz
-          asset_name: openwrt-banner-${{steps.get_tag.outputs.tag}}.tar.gz
+          asset_path: ./openwrt-banner-${{ github.event.inputs.tagname }}.tar.gz
+          asset_name: openwrt-banner-${{ github.event.inputs.tagname }}.tar.gz
           asset_content_type: application/tar.gz
