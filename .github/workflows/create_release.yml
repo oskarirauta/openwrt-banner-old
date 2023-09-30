@@ -32,13 +32,12 @@ jobs:
             git submodule update --init
             git rev-parse HEAD > revision.txt
             NAME="openwrt-banner-${{steps.get_tag.outputs.tag}}"
-            TARGET="openwrt-banner-${{steps.get_tag.outputs.tag}}.tar.gz"
             mkdir "/tmp/$NAME"
             cp -r * "/tmp/$NAME"
             mv "/tmp/$NAME" .
             # Cleanup
             find "$NAME" -name '.git*' -exec rm -rv {} \; || true
-            tar -czf "openwrt-banner-${{${{steps.get_tag.outputs.tag}}.tar.gz" "$NAME"
+            tar -czf "$NAME.tar.gz" "$NAME"
             tar -czf "$TARGET" "$NAME"
       - name: Get tag message
         run: |
