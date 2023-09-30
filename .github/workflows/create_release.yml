@@ -29,6 +29,7 @@ jobs:
       - name: Create source distribution
         run: |
             set -x
+            git clone --recursive https://github.com/oskarirauta/openwrt-banner.git openwrt-banner
             git submodule update --init
             git rev-parse HEAD > revision.txt
             NAME="openwrt-banner-${{ github.event.inputs.tagname }}"
