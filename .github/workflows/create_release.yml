@@ -57,7 +57,7 @@ jobs:
         id: delete_release
         uses: liudonghua123/delete-release-action@v1
         with:
-          release_name: 'v{{ github.ref }}'
+          release_name: 'v${{ github.ref }}'
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
