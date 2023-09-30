@@ -24,15 +24,23 @@ static void version_header(void) {
 }
 
 static void usage(const std::string &cmd) {
-	std::cout << "\nusage: " << cmd << " [banner/motd file]" << "\n" << std::endl;
+	std::cout << "\nusage: " << cmd << " [options] [banner/motd file]" << "\n" << std::endl;
+	std::cout <<
+			"  options:\n" <<
+			"    --help, --h                usage\n" <<
+			"    --classic, --c             use classic logo\n" <<
+			"    --version, --v		show version\n" <<
+			std::endl;
 }
 
 int main(int argc, char *argv[]) {
 
+	bool use_classic_logo = false;
+
 	if ( argc > 1 ) {
 
 		CmdParser cmdparser(std::vector<std::string>(argv, argv + argc), {
-			{{ "-h", "--h", "-help", "--help" }, [&argv](const CmdParser::Arg &arg) {
+			{{ "-h", "--h", "-help", "--help", "-usage", "--usage" }, [](const CmdParser::Arg &arg) {
 
 				version_header();
 				usage(arg.cmd);
@@ -45,13 +53,14 @@ int main(int argc, char *argv[]) {
 				exit(0);
 
 			}, false },
+			{{ "-c", "--c", "-classic", "--classic" }, [&use_classic_logo](const CmdParser::Arg &arg) { use_classic_logo = true; }, false },
 			{{ "" }, [](const CmdParser::Arg &arg) { logo_file = arg.arg; }, false }
 		});
 
 		cmdparser.parse();
 	}
 
-	std::string logo(banner::logo(logo_file));
+	std::string logo(banner::logo(logo_file, use_classic_logo));
 	int logo_width = banner::logo_width(logo);
 	std::string os_release, os_commit;
 

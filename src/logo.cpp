@@ -9,9 +9,21 @@
 
 bool banner::logo_error = false;
 
+static std::string classic_logo(void) {
+
+	return
+		" _______                     ________        __   \n"
+		"|       |.-----.-----.-----.|  |  |  |.----.|  |_ \n"
+		"|   -   ||  _  |  -__|     ||  |  |  ||   _||   _|\n"
+		"|_______||   __|_____|__|__||________||__|  |____|\n"
+		"         |__| W I R E L E S S   F R E E D O M     \n";
+}
+
 static std::string default_logo(void) {
 
-	return	"  ░░░░░░  ░░░░░░░ ░░░░░░░ ░░░   ░░ ░░░  ░░░░░░░░░░  ░░░░░░░░░\n"
+	return
+		"\n"
+		"  ░░░░░░  ░░░░░░░ ░░░░░░░ ░░░   ░░ ░░░  ░░░░░░░░░░  ░░░░░░░░░\n"
 		" ░▒█████░ ░██▓███░░▓█████░███▄  ██░██░ ░░░█▓▒█████▄░▒█████▓▒░\n"
 		"░▒██▒  ██▒▒██▒ ▀██▒▓█▒░░▀ ██▀█░ ██▒▓█░░█▒░█▓▒▓█▒ ▀██░ ▒██▒░░░\n"
 		"░▒██░ ░██▒▒██░  █▓▒████░  ██░▀█ ██▒░█▒░█▒░█▒░▓█░ ▄█▀  ▒██▒░  \n"
@@ -21,10 +33,10 @@ static std::string default_logo(void) {
 		"                           W I R E L E S S    F R E E D O M  \n";
 }
 
-const std::string banner::logo(const std::string& filename) {
+const std::string banner::logo(const std::string& filename, const bool& use_classic_logo) {
 
 	banner::logo_error = false;
-	std::string s = default_logo();;
+	std::string s(use_classic_logo ? classic_logo() : default_logo());
 
 	if ( !filename.empty() && std::filesystem::exists(filename)) {
 
