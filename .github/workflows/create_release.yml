@@ -53,13 +53,13 @@ jobs:
           else
             echo "TAG_MSG=" >> $GITHUB_ENV
           fi
-      - name: Delete release
-        id: delete_release
-        uses: liudonghua123/delete-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete tag and release
+        id: delete_tag_and_release
+        uses: dev-drprasad/delete-tag-and-release@v1.0
         with:
-          release_name: 'latest'
+          tag_name: ${{ github.ref }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          delete_release: true
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
